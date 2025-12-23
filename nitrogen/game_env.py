@@ -390,7 +390,7 @@ class GamepadEnv(Env):
         env_fps=10,
         async_mode=True,
         screenshot_backend="dxcam",
-        use_speedhack=True,
+        use_speedhack=False,
     ):
         super().__init__()
 
