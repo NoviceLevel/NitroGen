@@ -95,6 +95,7 @@ env = GamepadEnv(
     game_speed=1.0,
     env_fps=60,
     async_mode=True,
+    use_speedhack=False,
 )
 
 # These games requires to open a menu to initialize the controller

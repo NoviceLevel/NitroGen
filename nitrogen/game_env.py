@@ -390,6 +390,7 @@ class GamepadEnv(Env):
         env_fps=10,
         async_mode=True,
         screenshot_backend="dxcam",
+        use_speedhack=True,
     ):
         super().__init__()
 
@@ -467,7 +468,11 @@ class GamepadEnv(Env):
         self.bbox = (l, t, r-l, b-t)
 
         # Initialize speedhack client if using DLL injection
-        self.speedhack_client = xsh.Client(process_id=self.game_pid, arch=self.game_arch)
+        self.use_speedhack = use_speedhack
+        if self.use_speedhack:
+            self.speedhack_client = xsh.Client(process_id=self.game_pid, arch=self.game_arch)
+        else:
+            self.speedhack_client = None
 
         # Get the screenshot backend
         if screenshot_backend == "dxcam":
@@ -495,13 +500,15 @@ class GamepadEnv(Env):
         """
         Unpause the game using the specified method.
         """
-        self.speedhack_client.set_speed(1.0)
+        if self.speedhack_client:
+            self.speedhack_client.set_speed(1.0)
 
     def pause(self):
         """
         Pause the game using the specified method.
         """
-        self.speedhack_client.set_speed(0.0)
+        if self.speedhack_client:
+            self.speedhack_client.set_speed(0.0)
 
     def perform_action(self, action, duration):
         """
